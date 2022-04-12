@@ -31,3 +31,6 @@ jusqu’à 20 fois plus lents que les originaux).
 
 ## Des liens utile
 [PDF standart de C++98](https://www.lirmm.fr/~ducour/Doc-objets/ISO+IEC+14882-1998.pdf)
+
+## Les doutes qui m'ont fait perdre du temps
+- pas de point .tpp ou .cpp pour les vector (oui c'est dans le titre je sais)
