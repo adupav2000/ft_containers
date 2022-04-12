@@ -17,10 +17,10 @@ Implémentez les containers suivants et rendez les fichiers<container>
 	*std::pair
 	*std::make_pair
 
-	*Pour les surcharges non-membres, le mot-clé friend est autorisé.
+	*Pour les surcharges non-membres, le mot-clé friend est autorisé .
     Chaque utilisa-tion defrienddoit être justifiée et sera vérifiée en évaluation
-	*﻿Bien entendu, pour implémentermap::value_compare, le mot-cléfriendest au-torisé.
-	*Comparez lessortieset lesperformances / temps(vos containers peuvent être﻿jusqu’à 20 fois plus lents que les originaux).
+	*Bien entendu, pour implémentermap::value_compare, le mot-cléfriendest au-torisé.
+	*Comparez lessortieset lesperformances / temps(vos containers peuvent être jusqu’à 20 fois plus lents que les originaux).
 	*Pour tester vos containers :ft::<container>
 
 
