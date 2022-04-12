@@ -1,8 +1,7 @@
 # FT\_CONTAINERS 
 
-##Implémentez les containers suivants et rendez les fichiers\<container\>
-### .hpp correspondants :
-
+## Implémentez les containers suivants et rendez les fichiers\<container\>
+### .hpp correspondants 
     - vector, Vous n’avez pas à faire la spécialisationvector \<bool\>.
     - map
     - stack : Elle utilisera votre classe vector comme container sous-jacent par défaut.  Cependant, elle restera compatible avec les autres containers, ceux de la STL inclus.
