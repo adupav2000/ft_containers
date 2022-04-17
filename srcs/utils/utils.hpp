@@ -32,6 +32,75 @@ namespace ft
 			return (false);
 		return (true);
 	}
+
+	/**
+	 * @brief less than (<), refers to the fist arg
+	 * 
+	 * @tparam IteratorTypeOne
+	 * @tparam IteratorTypeTwo 
+	 * @param x first iterator, so that i can go to the next one using ++,
+	 * 			using vector it will be vector.begin()
+	 * @param x_last last iterator of a list, in vector : vector.end()
+	 * @param y second iterator
+	 * @param y_last same ... end
+	 * @return true : the assertion x(as an obj, not an iterator) < y is true
+	 * @return false
+	 */
+	template <class IteratorTypeOne, class IteratorTypeTwo>
+	bool lesser(IteratorTypeOne x, IteratorTypeOne x_last,
+		IteratorTypeTwo y, IteratorTypeTwo y_last)
+	{
+		// while both are not at the end
+		while (x != x_last && y != y_last)
+		{
+			// the opposite is confirmed -> assertion false
+			if (*x > *y)
+				return (false);
+			if (*x < *y)
+				return (true);
+			++y;
+			++x;
+		}
+		// if y is not at the end, it is undeniably bigger
+		if (y != y_last)
+			return (true);
+		return (false);
+	}
+
+	/**
+	 * @brief higher than (>), refers to the fist arg
+	 * 
+	 * @tparam IteratorTypeOne
+	 * @tparam IteratorTypeTwo 
+	 * @param x first iterator, so that i can go to the next one using ++,
+	 * 			using vector it will be vector.begin()
+	 * @param x_last last iterator of a list, in vector : vector.end()
+	 * @param y second iterator
+	 * @param y_last same ... end
+	 * @return true : the assertion x(as an obj, not an iterator) > y is true
+	 * @return false
+	 */
+	template <class IteratorTypeOne, class IteratorTypeTwo>
+	bool higher(IteratorTypeOne x, IteratorTypeOne x_last,
+		IteratorTypeTwo y, IteratorTypeTwo y_last)
+	{
+		// while both are not at the end
+		while (x != x_last && y != y_last)
+		{
+			// the opposite is confirmed -> assertion false
+			if (*x < *y)
+				return (false);
+			if (*x > *y)
+				return (true);
+			++y;
+			++x;
+		}
+		// if x is not at the end, it is undeniably bigger
+		if (x != x_last)
+			return (true);
+		return (false);
+	}
+
 }
 
 #endif
