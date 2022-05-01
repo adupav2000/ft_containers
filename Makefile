@@ -1,16 +1,6 @@
-BLACK='\u001b[30m'
-RED='\u001b[31m'
-GREEN="\u001b[32m"
-YELLOW='\u001b[33m'
-BLUE='\u001b[34m'
-MAGENTA='\u001b[35m'
-CYAN='\u001b[36m'
-WHITE='\u001b[37m'
-RESET='\u001b[0m'
-
 NAME = testing_norm_lib
 NAME_TEST = testing_test_lib
-SRCS = main.cpp 
+SRCS = main2.cpp 
 INC_NAME = dequeu.hpp vector.hpp  
 INC_PATH = containers/srcs/containers
 INC = $(adprefix $(INC_PATH), $(INC_NAME))
@@ -23,25 +13,26 @@ CC = c++ -Wall -Wextra -Werror -fsanitize=address -std=c++98
 all: $(NAME)
 
 $(OBJ_FOLDER)%.o: %.cpp
-	@echo -n Building Objects 
+	@echo -n Building objects
 	@mkdir -p	$(OBJ_FOLDER)
 	@$(CC) -c $< -o $@
 	@echo " ✅"
 
 $(NAME): $(OBJS)
-	@echo -n Creating test with normal lib 
-	@$(CC) $(OBJS) -o $(NAME)
+	@echo -n Creating test with normal lib
+	@$(CC) -D REAL_LIB=1 $(OBJS) -o $(NAME)
 	@echo " ✅"
-	@echo -n Creating test with test lib 
-	@$(CC) $(OBJS) -D REAL_LIB=0 -o $(NAME_TEST)
+	@echo -n Creating test with test lib
+	@$(CC) -D REAL_LIB=0 $(OBJS) -o $(NAME_TEST)
 	@echo " ✅"
-	@echo -n Creating test with test lib 
+	@echo -n Creating test with normal and test lib
 	@mkdir -p testResultFolder
 	@./$(NAME) 10 > testResultFolder/tmp_test_norm_lib
 	@./$(NAME_TEST) 10 > testResultFolder/tmp_test_test_lib
 	@echo " ✅"
 	@echo "Showing result difference with diff : "
-	@diff tmp_test_norm_lib tmp_test_test_lib
+	@diff testResultFolder/tmp_test_norm_lib testResultFolder/tmp_test_test_lib
+	@cat testResultFolder/tmp_test_test_lib
 
 clean:
 	@echo -n Cleaning objects files
@@ -54,6 +45,8 @@ fclean: clean
 	@rm -f $(NAME_TEST)
 	@rm -f testResultFolder/tmp_test_norm_lib 
 	@rm -f testResultFolder/tmp_test_test_lib
+	@rm -f testing_norm_lib
+	@rm -f testing_test_lib 
 	@echo " ✅"
 
 re: fclean $(NAME)

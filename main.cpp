@@ -6,7 +6,7 @@
 /*   By: adu-pavi <adu-pavi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:05:43 by adu-pavi          #+#    #+#             */
-/*   Updated: 2022/04/14 10:35:00 by adu-pavi         ###   ########.fr       */
+/*   Updated: 2022/04/16 10:29:16 by adu-pavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int main(int argc, char **argv)
 		const int idx = rand() % COUNT;
 		vector_buffer[idx].idx = 5;
 	}
+
 	ft::vector<Buffer>().swap(vector_buffer);
 
 	try
