@@ -101,6 +101,75 @@ namespace ft
 		return (false);
 	}
 
+	/**
+	 * @brief higher than (>), refers to the fist arg
+	 * 
+	 * @tparam IteratorTypeOne
+	 * @tparam IteratorTypeTwo 
+	 * @param x first iterator, so that i can go to the next one using ++,
+	 * 			using vector it will be vector.begin()
+	 * @param x_last last iterator of a list, in vector : vector.end()
+	 * @param y second iterator
+	 * @param y_last same ... end
+	 * @return true : the assertion x(as an obj, not an iterator) > y is true
+	 * @return false
+	 */
+	template <class IteratorTypeOne, class IteratorTypeTwo>
+	bool higherOrEqual(IteratorTypeOne x, IteratorTypeOne x_last,
+		IteratorTypeTwo y, IteratorTypeTwo y_last)
+	{
+		// while both are not at the end
+		while (x != x_last && y != y_last)
+		{
+			// the opposite is confirmed -> assertion false
+			if (*x < *y)
+				return (false);
+			if (*x > *y)
+				return (true);
+			++y;
+			++x;
+		}
+		// if y is not the last one, it's size is considered bigger
+		if (y != y_last)
+			return (false);
+		// they are equal or the size of x is bigger :> true
+		return (true);
+	}
+
+	/**
+	 * @brief lesser or equal than (<=), refers to the fist arg
+	 * 
+	 * @tparam IteratorTypeOne
+	 * @tparam IteratorTypeTwo 
+	 * @param x first iterator, so that i can go to the next one using ++,
+	 * 			using vector it will be vector.begin()
+	 * @param x_last last iterator of a list, in vector : vector.end()
+	 * @param y second iterator
+	 * @param y_last same ... end
+	 * @return true : the assertion x(as an obj, not an iterator) <= y is true
+	 * @return false
+	 */
+	template <class IteratorTypeOne, class IteratorTypeTwo>
+	bool lesserOrEqual(IteratorTypeOne x, IteratorTypeOne x_last,
+		IteratorTypeTwo y, IteratorTypeTwo y_last)
+	{
+		// while both are not at the end
+		while (x != x_last && y != y_last)
+		{
+			// the opposite is confirmed -> assertion false
+			if (*x > *y)
+				return (false);
+			if (*x < *y)
+				return (true);
+			++y;
+			++x;
+		}
+		// if x is not the last one, it's size is considered bigger
+		if (x != x_last)
+			return (false);
+		// they are equal or the size of y is bigger :> true
+		return (true);
+	}
 }
 
 #endif
