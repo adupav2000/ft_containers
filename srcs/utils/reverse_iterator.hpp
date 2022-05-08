@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
 
 #ifndef FT_REVERSE_ITERATOR_HPP
 #define FT_REVERSE_ITERATOR_HPP
@@ -23,20 +22,21 @@ namespace ft
 	template <class T>
 	class reverse_iterator : public ft::iterator_traits<T>
 	{
-	protected:
-		iterator<T> _current;
 
 	public:
-		typedef iterator<T> iterator_type;
-		typedef typename iterator_traits<iterator<T> >::difference_type difference_type;
-		typedef typename iterator_traits<iterator<T> >::reference reference;
-		typedef typename iterator_traits<iterator<T> >::pointer pointer;
+		typedef T					iterator_type;
+		typedef typename iterator_traits<T>::difference_type difference_type;
+		typedef typename iterator_traits<T>::reference reference;
+		typedef typename iterator_traits<T>::pointer pointer;
 
+	protected:
+		iterator_type _current;
+	
 		reverse_iterator() : _current(NULL){};
-		explicit reverse_iterator(iterator<T> x) : _current(x){};
+		explicit reverse_iterator(iterator_type x) : _current(x){};
 		template <class U>
 		reverse_iterator(const reverse_iterator<U> &u) : _current(u->base()){};
-		iterator<T> base() const
+		iterator_type base() const
 		{
 			return (this->_current);
 		}
