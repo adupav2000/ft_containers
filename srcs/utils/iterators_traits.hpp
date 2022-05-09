@@ -6,7 +6,7 @@
 /*   By: adu-pavi <adu-pavi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 13:06:57 by adu-pavi          #+#    #+#             */
-/*   Updated: 2022/05/08 13:43:24 by adu-pavi         ###   ########.fr       */
+/*   Updated: 2022/05/08 19:44:45 by adu-pavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ namespace ft
 			typedef Pointer							pointer;
 			typedef Reference						reference;
 			typedef Category						iterator_category;
-
+		protected:
+			pointer _pointer;
 	};
 }
 #endif
