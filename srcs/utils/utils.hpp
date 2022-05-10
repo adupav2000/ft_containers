@@ -17,7 +17,7 @@ namespace ft
 {
 	template <class IteratorTypeOne, class IteratorTypeTwo>
 	bool equal(IteratorTypeOne x, IteratorTypeOne x_last,
-		IteratorTypeTwo y, IteratorTypeTwo y_last)
+			   IteratorTypeTwo y, IteratorTypeTwo y_last)
 	{
 		// while both are not at the end
 		while (x != x_last && y != y_last)
@@ -35,9 +35,9 @@ namespace ft
 
 	/**
 	 * @brief less than (<), refers to the fist arg
-	 * 
+	 *
 	 * @tparam IteratorTypeOne
-	 * @tparam IteratorTypeTwo 
+	 * @tparam IteratorTypeTwo
 	 * @param x first iterator, so that i can go to the next one using ++,
 	 * 			using vector it will be vector.begin()
 	 * @param x_last last iterator of a list, in vector : vector.end()
@@ -48,7 +48,7 @@ namespace ft
 	 */
 	template <class IteratorTypeOne, class IteratorTypeTwo>
 	bool lesser(IteratorTypeOne x, IteratorTypeOne x_last,
-		IteratorTypeTwo y, IteratorTypeTwo y_last)
+				IteratorTypeTwo y, IteratorTypeTwo y_last)
 	{
 		// while both are not at the end
 		while (x != x_last && y != y_last)
@@ -69,9 +69,9 @@ namespace ft
 
 	/**
 	 * @brief higher than (>), refers to the fist arg
-	 * 
+	 *
 	 * @tparam IteratorTypeOne
-	 * @tparam IteratorTypeTwo 
+	 * @tparam IteratorTypeTwo
 	 * @param x first iterator, so that i can go to the next one using ++,
 	 * 			using vector it will be vector.begin()
 	 * @param x_last last iterator of a list, in vector : vector.end()
@@ -82,7 +82,7 @@ namespace ft
 	 */
 	template <class IteratorTypeOne, class IteratorTypeTwo>
 	bool higher(IteratorTypeOne x, IteratorTypeOne x_last,
-		IteratorTypeTwo y, IteratorTypeTwo y_last)
+				IteratorTypeTwo y, IteratorTypeTwo y_last)
 	{
 		// while both are not at the end
 		while (x != x_last && y != y_last)
@@ -103,9 +103,9 @@ namespace ft
 
 	/**
 	 * @brief higher than (>), refers to the fist arg
-	 * 
+	 *
 	 * @tparam IteratorTypeOne
-	 * @tparam IteratorTypeTwo 
+	 * @tparam IteratorTypeTwo
 	 * @param x first iterator, so that i can go to the next one using ++,
 	 * 			using vector it will be vector.begin()
 	 * @param x_last last iterator of a list, in vector : vector.end()
@@ -116,7 +116,7 @@ namespace ft
 	 */
 	template <class IteratorTypeOne, class IteratorTypeTwo>
 	bool higherOrEqual(IteratorTypeOne x, IteratorTypeOne x_last,
-		IteratorTypeTwo y, IteratorTypeTwo y_last)
+					   IteratorTypeTwo y, IteratorTypeTwo y_last)
 	{
 		// while both are not at the end
 		while (x != x_last && y != y_last)
@@ -138,9 +138,9 @@ namespace ft
 
 	/**
 	 * @brief lesser or equal than (<=), refers to the fist arg
-	 * 
+	 *
 	 * @tparam IteratorTypeOne
-	 * @tparam IteratorTypeTwo 
+	 * @tparam IteratorTypeTwo
 	 * @param x first iterator, so that i can go to the next one using ++,
 	 * 			using vector it will be vector.begin()
 	 * @param x_last last iterator of a list, in vector : vector.end()
@@ -151,7 +151,7 @@ namespace ft
 	 */
 	template <class IteratorTypeOne, class IteratorTypeTwo>
 	bool lesserOrEqual(IteratorTypeOne x, IteratorTypeOne x_last,
-		IteratorTypeTwo y, IteratorTypeTwo y_last)
+					   IteratorTypeTwo y, IteratorTypeTwo y_last)
 	{
 		// while both are not at the end
 		while (x != x_last && y != y_last)

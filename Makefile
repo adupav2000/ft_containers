@@ -1,7 +1,7 @@
 NAME = testing_norm_lib
 NAME_TEST = testing_test_lib
 SRCS = main2.cpp 
-INC_NAME = dequeu.hpp vector.hpp  
+INC_NAME = vector.hpp  
 INC_PATH = containers/srcs/containers
 INC = $(adprefix $(INC_PATH), $(INC_NAME))
 OBJ = $(SRCS:.cpp=.o)
@@ -15,7 +15,7 @@ all: $(NAME)
 $(OBJ_FOLDER)%.o: %.cpp
 	@echo -n Building objects
 	@mkdir -p	$(OBJ_FOLDER)
-	@$(CC) -c $< -o $@
+	@$(CC) -c $< -I srcs/containers -o $@
 	@echo " ✅"
 
 $(NAME): $(OBJS)
