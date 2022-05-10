@@ -14,7 +14,6 @@
 #define VECTOR_HPP
 
 #include "../utils/iterator.hpp"
-// #include "../utils/reverse_iterator.hpp"
 #include "../utils/utils.hpp"
 #include <memory>
 #include <iostream>
@@ -477,7 +476,21 @@ namespace ft
 		 * @param n
 		 * @param x
 		 */
-		void insert(iterator position, size_type n, const T &x);
+		void insert(iterator position, size_type n, const T &x)
+		{
+			difference_type int_pos = pos - this->begin();
+				while (capacity() - size() < count)
+					_alloc_re();
+				vector temp(begin() + int_pos, end());
+				for (size_t i = 0; i < temp.size(); i++)
+					pop_back();
+				while (count > 0)
+					push_back(value), count--;
+				for (iterator it = temp.begin(); it != temp.end(); it++)
+					push_back(*it);
+
+		}
+
 		template <class InputIterator>
 		void insert(iterator position,
 					InputIterator first, InputIterator last);
