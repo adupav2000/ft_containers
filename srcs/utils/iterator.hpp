@@ -80,6 +80,11 @@ namespace ft
 			return random_access_iterator<const Iterator>(this->_pointer);
 		}
 
+		operator random_access_iterator<Iterator>(void) const
+		{
+			return random_access_iterator<Iterator>(this->_pointer);
+		}
+
 		bool operator==(const random_access_iterator &it) const
 		{
 			return this->_pointer == it._pointer;
@@ -196,11 +201,6 @@ namespace ft
 			return *this;
 		}
 
-		pointer operator->(void) const
-		{
-			return this->_pointer;
-		}
-
 		reference operator[](difference_type n)
 		{
 			return *(this->_pointer + n);
@@ -306,6 +306,8 @@ namespace ft
 		{
 			return reverse_iterator<const T>(_iter);
 		}
+		
+		
 
 		template <class Iterator>
 		reverse_iterator &operator=(const reverse_iterator<Iterator> &copy)
