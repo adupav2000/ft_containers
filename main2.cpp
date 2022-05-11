@@ -13,32 +13,23 @@
 #include <iostream>
 #include <string>
 #include <deque>
+#include <stdio.h>
+#include <stdlib.h>
 
-// #include "srcs/utils/iterator.hpp"
-// #include "srcs/utils/enable_if.hpp"
-// #include "srcs/utils/is_integral.hpp"
-// #include "srcs/utils/iterators_traits.hpp"
-// #include "srcs/utils/lexicographical_compare.hpp"
-#include "srcs/utils/make_pair.hpp"
-#include "srcs/utils/pair.hpp"
-// #include "srcs/utils/reverse_iterator.hpp"
-// #include "srcs/utils/utils.hpp"
+#define real
 
-// #ifndef REAL_LIB
-// #define REAL_LIB 1
-// #endif
 
-// #if REAL_LIB == 1
-// #include <map>
-// #include <stack>
-// #include <vector>
-// namespace ft = std;
-// #else
-// #include "srcs/containers/map.hpp"
-// #include "srcs/containers/stack.hpp"
-// #endif
-
+#ifndef real
+#include "srcs/containers/stack.hpp"
+#include "srcs/containers/map.hpp"
 #include "srcs/containers/vector.hpp"
+#else
+#include <map>
+#include <stack>
+#include <vector>
+namespace ft = std;
+#endif
+
 
 #define MAX_RAM 4294967296
 #define BUFFER_SIZE 4096
@@ -53,16 +44,9 @@ struct Buffer
 int main(int argc, char **argv)
 {
 	{
-		if (argc != 2)
-		{
-			std::cerr << "Usage: ./test seed" << std::endl;
-			std::cerr << "Provide a seed please" << std::endl;
-			std::cerr << "Count value:" << COUNT << std::endl;
-			return 1;
-		}
-		const int seed = atoi(argv[1]);
-		srand(seed);
-		std::cout << "passed the first " << std::endl;
+		(void)argc;
+		(void)argv;
+		
 		// ft::vector<std::string> vector_str;
 		// ft::vector<int> test_int(100, 10);
 		ft::vector<int> vector_int(20);
@@ -78,21 +62,22 @@ int main(int argc, char **argv)
 		}
 		// test on resize
 		vector_int.resize(3, 12);
-		vector_int.resize(300, 12);
+		ft::vector<int> vector_int_insert(20);
+		vector_int_insert.resize(12, 12);
 		for (size_t i = 0; i < vector_int.size(); i++)
 		{
 			std::cout << vector_int.at(i) << "-" << i << " ";
 		}
 		std::cout << std::endl;
 
-		vector_int.assign(100, 12);
+		// vector_int.insert(vector_int.begin(), (std::size_t)23, (std::size_t)22);
+		vector_int.insert(vector_int.begin(), vector_int_insert.begin(), vector_int_insert.end());
 		for (size_t i = 0; i < vector_int.size(); i++)
 		{
 			std::cout << vector_int.at(i) << "-" << i << " ";
 		}
 		std::cout << std::endl;
 
-		std::cout << "passed the second " << std::endl;
 		// ft::stack<int> stack_int;
 		struct Buffer test_buffer_resize;
 		test_buffer_resize.idx = 123;
@@ -101,6 +86,7 @@ int main(int argc, char **argv)
 
 		// ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
 		// ft::map<int, int> map_int;
+
 
 		std::cout << " Vector int " << vector_int.capacity() << " and size " << vector_int.size() << std::endl;
 		std::cout << " Vector buffer " << vector_buffer.capacity() << " and size " << vector_buffer.size() << std::endl;

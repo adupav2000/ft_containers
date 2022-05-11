@@ -45,7 +45,7 @@ namespace ft
 		{
 			if (*first1 < *first2)
 				return (true);
-			else if (*first1 > first2)
+			else if (*first1 > *first2)
 				return (false);
 			else if (first2 == last2)
 				return (false);

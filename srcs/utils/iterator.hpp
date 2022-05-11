@@ -13,7 +13,8 @@
 #ifndef FT_ITERATOR_HPP
 #define FT_ITERATOR_HPP
 
-#include "./iterators_traits.hpp"
+#include "iterators_traits.hpp"
+
 namespace ft
 {
 	template <class InputIterator>
@@ -60,6 +61,11 @@ namespace ft
 		reference operator*(void) const
 		{
 			return *(this->_pointer);
+		}
+
+		pointer     		operator->() const
+		{
+			return &(operator*());
 		}
 
 		random_access_iterator &operator=(const random_access_iterator &copy)
@@ -291,10 +297,12 @@ namespace ft
 			: _iter(it){};
 
 		template <class Iter>
-		reverse_iterator(const reverse_iterator<Iter> &copy)
-			: _iter(copy.base()) {}
+		reverse_iterator(reverse_iterator<Iter> &copy)
+		{
+			_iter = copy._iter;
+		}
 
-		operator reverse_iterator<const T>(void) const
+		operator reverse_iterator<const T>(void)
 		{
 			return reverse_iterator<const T>(_iter);
 		}

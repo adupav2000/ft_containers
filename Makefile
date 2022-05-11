@@ -20,15 +20,16 @@ $(OBJ_FOLDER)%.o: %.cpp
 
 $(NAME): $(OBJS)
 	@echo -n Creating test with normal lib
-	@$(CC) -D REAL_LIB=1 $(OBJS) -o $(NAME)
+	@$(CC) $(OBJS) -o $(NAME)
 	@echo " ✅"
 	@echo -n Creating test with test lib
-	@$(CC) -D REAL_LIB=0 $(OBJS) -o $(NAME_TEST)
+	@$(CC) -D real $(OBJS) -o $(NAME_TEST)
 	@echo " ✅"
-	@echo -n Creating test with normal and test lib
+	@echo -n Creating test with normal container
 	@mkdir -p testResultFolder
-	@./$(NAME) 10 > testResultFolder/tmp_test_norm_lib
-	@./$(NAME_TEST) 10 > testResultFolder/tmp_test_test_lib
+	@./$(NAME) > testResultFolder/tmp_test_norm_lib
+	@echo -n Creating test with test container
+	@./$(NAME_TEST) > testResultFolder/tmp_test_test_lib
 	@echo " ✅"
 	@echo "Showing result difference with diff : "
 	@diff testResultFolder/tmp_test_norm_lib testResultFolder/tmp_test_test_lib

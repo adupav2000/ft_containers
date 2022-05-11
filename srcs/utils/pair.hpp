@@ -13,6 +13,8 @@
 #ifndef PAIR_HPP
 #define PAIR_HPP
 
+#include "utils.hpp"
+
 namespace ft
 {
 	template <class T1, class T2>
@@ -24,23 +26,12 @@ namespace ft
 		T1 first;
 		T2 second;
 
-		pair()
-		{
-			this->first = NULL;
-			this->second = NULL;
-		}
+		pair() : first(), second() { }
 
-		pair(const T1 &x, const T2 &y)
-		{
-			this->first = x;
-			this->second = y;
-		}
+		pair(const T1 &x, const T2 &y) : first(x), second(y) { }
 
 		template <class U, class V>
-		pair(const pair<U, V> &p)
-		{
-			this->first = p->fisrt;
-			this->second = p->second;
+		pair(const pair<U, V> &p) : first(p.first), second(p.second) {
 		}
 
 		pair<T1, T2> operator=(const pair<T1, T2> &x)

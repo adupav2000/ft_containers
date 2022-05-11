@@ -16,10 +16,11 @@
 #include <memory>
 #include <functional>
 
-#include "iterator.hpp"
-#include "rbtree.hpp"
-#include "pair.hpp"
-#include "utils.hpp"
+#include "../utils/iterator.hpp"
+#include "../utils/rbtree.hpp"
+#include "../utils/pair.hpp"
+#include "../utils/make_pair.hpp"
+#include "../utils/utils.hpp"
 namespace ft
 {
 	/**
@@ -217,7 +218,7 @@ namespace ft
 		void insert(InputIterator first, InputIterator last)
 		{
 			while (first != last)
-				_tree.insert(*first++);
+				_tree.insert(*(first)++);
 		}
 
 
@@ -239,10 +240,20 @@ namespace ft
 
 		void swap(map &x)
 		{
-			ft::swap(_alloc, x._alloc);
-			ft::swap(_keyComp, x._keyComp);
-			ft::swap(_valComp, x._valComp);
-			_tree.swap(x._tree);
+			tree_type tmp_tree = x._tree;
+			allocator_type tmp_alloc = x._alloc;
+			key_compare tmp_key_comp = x._keyComp;
+			value_compare tmp_val_comp = x._valComp;
+
+			x._alloc = _alloc;
+			x._tree = _tree;
+			x._keyComp = _keyComp;
+			x._valComp = _valComp;
+
+			_tree = tmp_tree;
+			_alloc = tmp_alloc;
+			_keyComp = tmp_key_comp;
+			_valComp = tmp_val_comp;
 		}
 
 		void clear(void)
@@ -361,7 +372,7 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	bool operator==(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T, Compare, Alloc> &rhs)
 	{
-		return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+		return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
@@ -399,6 +410,5 @@ namespace ft
 	{
 		rhs.swap(lhs);
 	}
-};
 }
 #endif

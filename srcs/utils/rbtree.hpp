@@ -13,9 +13,11 @@
 #ifndef RBTREE_HPP
 #define RBTREE_HPP
 
-#include "iterator.hpp"
-#include "pair.hpp"
-#include "utils.hpp"
+#include "./iterator.hpp"
+#include "./pair.hpp"
+#include "./make_pair.hpp"
+#include "./lexicographical_compare.hpp"
+#include "./utils.hpp"
 
 #define RED 1	// true
 #define BLACK 0 // false
@@ -50,33 +52,33 @@ namespace ft
 		}
 		rbtree_node *uncle()
 		{
-			if (parent != nullptr)
+			if (parent != u_nullptr)
 			{
 				if (parent->right == this)
 					return (parent->left);
 				else
 					return (parent->right);
 			}
-			return (nullptr);
+			return (u_nullptr);
 		}
 
 		rbtree_node *grandParent()
 		{
-			if (parent != nullptr && parent->parent != nullptr)
+			if (parent != u_nullptr && parent->parent != u_nullptr)
 				return (parent->parent);
-			return (nullptr);
+			return (u_nullptr);
 		}
 
 		short uncleColor()
 		{
-			if (this->uncle() != nullptr)
+			if (this->uncle() != u_nullptr)
 				return (this->uncle()->color);
 			return (3);
 		}
 
 		short grandParentColor()
 		{
-			if (this->grandParent() != nullptr)
+			if (this->grandParent() != u_nullptr)
 				return (this->grandParent()->color);
 			return (3);
 		}
@@ -87,7 +89,7 @@ namespace ft
 	{
 	public:
 		typedef T value_type;
-		typedef T *node_ptr;
+		typedef T *node_pointer;
 		typedef data &reference;
 		typedef data *pointer;
 		typedef std::ptrdiff_t difference_type;
@@ -102,17 +104,18 @@ namespace ft
 		node_pointer _NIL;
 
 	public:
-		rbtree_iterator(void) : _it(NULL), _root(NULL), _NIL(NULL){v} rbtree_iterator(node_pointer it, node_pointer root, node_pointer NIL) : _iter(it), _root(root), _NIL(NIL) {}
+		rbtree_iterator(void) : _iter(NULL), _root(NULL), _NIL(NULL){}
+		rbtree_iterator(node_pointer it, node_pointer root, node_pointer NIL) : _iter(it), _root(root), _NIL(NIL) {}
 		rbtree_iterator(const rbtree_iterator &rhs) : _iter(rhs._iter), _root(rhs._root), _NIL(rhs._NIL) {}
 
 		operator rbtree_iterator<const data, T>(void) const
 		{
-			return rbtree_iterator<const data, T>(&this);
+			return rbtree_iterator<const data, T>(_iter, _root, _NIL);
 		}
 
 		rbtree_iterator &operator=(const rbtree_iterator &it)
 		{
-			_it = it._it;
+			_iter = it._iter;
 			_root = it._root;
 			_NIL = it._NIL;
 			return *this;
@@ -120,29 +123,57 @@ namespace ft
 
 		bool operator==(const rbtree_iterator &it) const
 		{
-			return _it == it._it;
+			return _iter == it._iter;
 		}
 
 		bool operator!=(const rbtree_iterator &it) const
 		{
-			return _it != it._it;
+			return _iter != it._iter;
 		}
 
 		reference operator*(void)
 		{
-			return _it->data;
+			return _iter->data;
 		}
 
 		reference operator*(void) const
 		{
-			return _it->data;
+			return _iter->data;
 		}
 
 		pointer operator->(void) const
 		{
-			return &_it->data;
+			return &_iter->data;
 		}
 
+		rbtree_iterator &operator++()
+		{
+			if (_iter != _NIL)
+			this->_getNext();
+			return (*this);
+		}
+		rbtree_iterator &operator++(int)
+		{
+			rbtree_iterator tmp(*this);
+			++(*this);
+			return (tmp);
+		}
+
+		rbtree_iterator &operator--()
+		{
+			this->_getPrev();
+			return (*this);
+		}
+		rbtree_iterator &operator--(int)
+		{
+			rbtree_iterator tmp(*this);
+			--(*this);
+			return (tmp);			
+		}
+		node_pointer base()
+		{
+			return (this->_iter);
+		}
 		private:
 			node_pointer _getMin(node_pointer iter)
 			{
@@ -161,19 +192,19 @@ namespace ft
 			node_pointer _getNext(void)
 			{
 				node_pointer ptr(_iter);
-				if (mext->right != _NIL)
-					return (_getMin(iter->right));
+				if (ptr->right != _NIL)
+					return (_getMin(ptr->right));
 				// le parent "a gauche" est toujours plus élevé
 				while (ptr->parent != _NIL && ptr->parent->right == ptr)
 					ptr = ptr->parent;
 				return (ptr);
 			}
-			node_ptr _getPrev(void)
+			node_pointer _getPrev(void)
 			{
-				node_ptr ptr = _it;
+				node_pointer ptr = _iter;
 				if (ptr->left != _NIL)
 					return _getMax(ptr->left);
-				node_ptr prev = ptr->parent;
+				node_pointer prev = ptr->parent;
 				while (prev != _NIL && ptr == prev->left)
 				{
 					ptr = prev;
@@ -217,17 +248,25 @@ namespace ft
 			allocator_type									_alloc;
 			key_compare										_comp;
 		public:		 
-			rbtree(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _NIL(_alloc.allocate(1)), _size(0)
+			rbtree(const allocator_type &alloc = allocator_type())
 			{
 				// aucun element -> tout est NIL
+				_alloc = alloc;
+				_NIL = _alloc.allocate(1);
+				_size = 0;
 				_NIL->parent = _NIL;
 				_NIL->right = _NIL;
 				_NIL->left = _NIL;
 				_NIL->color = BLACK;
 			}
 
-			rbtree(rbtree &rhs) : _alloc(rhs._alloc), _root(rhs._root), _size(rhs._size), _NIL(_alloc.allocate(1)), _comp(rhs._comp)
+			rbtree(rbtree &rhs) 
 			{
+				_alloc = rhs._alloc;
+				_root = rhs._root;
+				_size = rhs._size;
+				_NIL = _alloc.allocate(1);
+				_comp = rhs._comp;
 				_NIL->parent = _NIL;
 				_NIL->right = _NIL;
 				_NIL->left = _NIL;
@@ -251,12 +290,12 @@ namespace ft
 
 			iterator begin(void)
 			{
-				return iterator(_findMin(_root), _root, _NIL);
+				return iterator(_getMin(_root), _root, _NIL);
 			}
 
 			const_iterator begin(void) const
 			{
-				return const_iterator(_findMin(_root), _root, _NIL);
+				return const_iterator(_getMin(_root), _root, _NIL);
 			}
 
 			iterator end(void)
@@ -276,11 +315,11 @@ namespace ft
 
 			const_reverse_iterator rbegin(void) const
 			{
-				return const_reverse_iterator(end());
+				return const_reverse_iterator(this->end());
 			}
 			reverse_iterator rend(void)
 			{
-				return reverse_iterator(begin());
+				return reverse_iterator(this->begin());
 			}
 
 			const_reverse_iterator rend(void) const
@@ -363,14 +402,23 @@ namespace ft
 				}
 			}
 
+			void swap(node_ptr x, node_ptr y)
+			{
+				node_ptr tmp;
+				tmp = y;
+				y = x;
+				x = tmp;
+			}
 			void swap(rbtree &x)
 			{
-				ft::swap(x._root, _root);
-				ft::swap(x._NIL, _NIL);
-				ft::swap(x._size, _size);
-				ft::swap(x._alloc, _alloc);
-				ft::swap(x._comp, _comp);
+				swap(x._root, _root);
+				swap(x._NIL, _NIL);
+				swap(x._size, _size);
+				swap(x._alloc, _alloc);
+				swap(x._comp, _comp);
 			}
+
+			
 
 			/**
 			 * @brief tries to insert after a specific iterator called hint
@@ -386,7 +434,7 @@ namespace ft
 				if (_comp(hint.base()->data, value) && _comp(value, next->data))
 				{
 					node_ptr newNode = _newNode(value);
-					ft::pair<node_ptr, bool> r = _deepInsert(hint.base(), newNode);
+					ft::pair<node_ptr, bool> r = _insertDeep(hint.base(), newNode);
 					_size++;
 					return iterator(r.first, _root, _NIL);
 				}
@@ -466,14 +514,14 @@ namespace ft
 				if (root != _NIL && _comp(to_insert->data, root->data))
 				{
 					if (root->left != _NIL)
-					 	return (_insert(root->left, to_insert));
+					 	return (_insertDeep(root->left, to_insert));
 					else
 						root->left = to_insert;
 				}
 				else if (root != _NIL && _comp(root->data, to_insert->data))
 				{
 					if (root->right != _NIL)
-					 	return (_insert(root->right, to_insert));
+					 	return (_insertDeep(root->right, to_insert));
 					else
 						root->right = to_insert;
 				}
@@ -511,7 +559,7 @@ namespace ft
 				}
 				else
 				{
-					y = _findMin(to_remove->right);
+					y = _getMin(to_remove->right);
 					y_original_color = y->color;
 					x = y->right;
 					if (y->parent == to_remove)
@@ -553,7 +601,7 @@ namespace ft
 						{
 							s->color = BLACK;
 							x->parent->color = RED;
-							_leftRotate(x->parent);
+							_rotateLeft(x->parent);
 							s = x->parent->right;
 						}
 						if (s->left->color == BLACK && s->right->color == BLACK)
@@ -567,13 +615,13 @@ namespace ft
 							{
 								s->left->color = BLACK;
 								s->color = RED;
-								_rightRotate(s);
+								_rotateRight(s);
 								s = x->parent->right;
 							}
 							s->color = x->parent->color;
 							x->parent->color = BLACK;
 							s->right->color = BLACK;
-							_leftRotate(x->parent);
+							_rotateLeft(x->parent);
 							x = _root;
 						}
 					}
@@ -584,7 +632,7 @@ namespace ft
 						{
 							s->color = BLACK;
 							x->parent->color = RED;
-							_rightRotate(x->parent);
+							_rotateRight(x->parent);
 							s = x->parent->left;
 						}
 						if (s->right->color == BLACK && s->left->color == BLACK)
@@ -598,13 +646,13 @@ namespace ft
 							{
 								s->right->color = BLACK;
 								s->color = RED;
-								_leftRotate(s);
+								_rotateLeft(s);
 								s = x->parent->left;
 							}
 							s->color = x->parent->color;
 							x->parent->color = BLACK;
 							s->left->color = BLACK;
-							_rightRotate(x->parent);
+							_rotateRight(x->parent);
 							x = _root;
 						}
 					}
@@ -627,48 +675,6 @@ namespace ft
 					tree_dst.insert(root_src->data);
 					_deepCopy(tree_dst, root_src->right, nil_src);
 				}
-			}
-
-			int _deepRemove(node_ptr z)
-			{
-				node_ptr y = z;
-				node_ptr x;
-				bool y_original_color = y->color;
-
-				if (z->left == _NIL)
-				{
-					x = z->right;
-					_invert(z, z->right);
-				}
-				else if (z->right == _NIL)
-				{
-					x = z->left;
-					_invert(z, z->left);
-				}
-				else
-				{
-					y = _findMin(z->right);
-					y_original_color = y->color;
-					x = y->right;
-					if (y->parent == z)
-						x->parent = y;
-					else
-					{
-						_invert(y, y->right);
-						y->right = z->right;
-						y->right->parent = y;
-					}
-					_invert(z, y);
-					y->left = z->left;
-					y->left->parent = y;
-					y->color = z->color;
-				}
-				_alloc.destroy(z);
-				_alloc.deallocate(z, 1);
-				_size--;
-				if (y_original_color == BLACK)
-					_removeFix(x);
-				return 1;
 			}
 
 			void _rotateLeft(node_ptr x)
@@ -708,7 +714,7 @@ namespace ft
 			node_ptr _getMin(node_ptr node) const
 			{
 				while (node->left != _NIL)
-					node = root->left;
+					node = node->left;
 				return node;
 			}
 
@@ -724,7 +730,7 @@ namespace ft
 				node_ptr tmp = _NIL;
 
 				if (node->right != _NIL)
-					return _findMin(node->right);
+					return _getMin(node->right);
 				tmp = node->parent;
 				while (tmp != _NIL && node == tmp->right)
 				{
@@ -839,11 +845,11 @@ namespace ft
 							if (k == k->parent->left)
 							{
 								k = k->parent;
-								_rightRotate(k);
+								_rotateRight(k);
 							}
 							k->parent->color = BLACK;
 							k->grandParent()->color = RED;
-							_leftRotate(k->grandParent());
+							_rotateLeft(k->grandParent());
 						}
 					}
 					else
@@ -862,11 +868,11 @@ namespace ft
 							if (k == k->parent->right)
 							{
 								k = k->parent;
-								_leftRotate(k);
+								_rotateLeft(k);
 							}
 							k->parent->color = BLACK;
 							k->grandParent()->color = RED;
-							_rightRotate(k->grandParent());
+							_rotateRight(k->grandParent());
 						}
 					}
 					if (k == _root)
@@ -874,7 +880,8 @@ namespace ft
 				}
 				_root->color = BLACK;
 			}
-	}
+	};
+
 
 }
 

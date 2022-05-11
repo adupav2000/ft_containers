@@ -129,3 +129,5 @@ namespace ft
 		return lhs._c >= rhs._c;
 	}
 }
+
+#endif
