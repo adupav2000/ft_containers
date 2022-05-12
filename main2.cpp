@@ -16,140 +16,80 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define real
-
-
-#ifndef real
-#include "srcs/containers/stack.hpp"
-#include "srcs/containers/map.hpp"
-#include "srcs/containers/vector.hpp"
+#ifdef FT
+	#include "inc/map.hpp"
+	#include "inc/stack.hpp"
+	#include "inc/vector.hpp"
 #else
-#include <map>
-#include <stack>
-#include <vector>
-namespace ft = std;
+	#include <map>
+	#include <stack>
+	#include <vector>
+	namespace ft = std;
 #endif
 
-
-#define MAX_RAM 4294967296
-#define BUFFER_SIZE 4096
-struct Buffer
+static void vector_tests(int n)
 {
-	int idx;
-	char buff[BUFFER_SIZE];
-};
+	ft::vector<int> vect_int;
 
-#define COUNT (MAX_RAM / (int)sizeof(Buffer))
+	for (int i = 0; i < n; i++)
+		vect_int.push_back(i);
 
-int main(int argc, char **argv)
+	for (int i = 0; i < 2; i++)
+		vect_int.pop_back();
+
+	std::cout << "capactity: " << vect_int.capacity() << std::endl;
+	std::cout << "size: " << vect_int.size() << std::endl;
+	std::cout << "max size: " << vect_int.max_size() << std::endl;
+
+	for (size_t i = 0; i < vect_int.size(); i++)
+		std::cout << "[" << i << "] = " << vect_int[i] << "\n";
+}
+
+static void stack_tests(int n)
 {
+	ft::stack<int> stack_int;
+
+	for (int i = 0; i < n; i++)
+		stack_int.push(i);
+
+	for (int i = 0; i < 2; i++)
+		stack_int.pop();
+
+	std::cout << "size: " << stack_int.size() << std::endl;
+
+	size_t i = stack_int.size();
+	while (!stack_int.empty() && i--)
 	{
-		(void)argc;
-		(void)argv;
-		
-		// ft::vector<std::string> vector_str;
-		// ft::vector<int> test_int(100, 10);
-		ft::vector<int> vector_int(20);
-		size_t tt_cap = 0;
-		for (size_t i = 0; i < 300000; i++)
-		{
-			if (tt_cap != vector_int.capacity())
-			{
-				tt_cap = vector_int.capacity();
-				std::cout << tt_cap << " " << vector_int.size() << std::endl;
-			}
-			vector_int.push_back(i * i);
-		}
-		// test on resize
-		vector_int.resize(3, 12);
-		ft::vector<int> vector_int_insert(20);
-		vector_int_insert.resize(12, 12);
-		for (size_t i = 0; i < vector_int.size(); i++)
-		{
-			std::cout << vector_int.at(i) << "-" << i << " ";
-		}
-		std::cout << std::endl;
-
-		// vector_int.insert(vector_int.begin(), (std::size_t)23, (std::size_t)22);
-		vector_int.insert(vector_int.begin(), vector_int_insert.begin(), vector_int_insert.end());
-		for (size_t i = 0; i < vector_int.size(); i++)
-		{
-			std::cout << vector_int.at(i) << "-" << i << " ";
-		}
-		std::cout << std::endl;
-
-		// ft::stack<int> stack_int;
-		struct Buffer test_buffer_resize;
-		test_buffer_resize.idx = 123;
-		ft::vector<Buffer> vector_buffer;
-		vector_buffer.resize(123, test_buffer_resize);
-
-		// ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
-		// ft::map<int, int> map_int;
-
-
-		std::cout << " Vector int " << vector_int.capacity() << " and size " << vector_int.size() << std::endl;
-		std::cout << " Vector buffer " << vector_buffer.capacity() << " and size " << vector_buffer.size() << std::endl;
-
-		std::cout << "Back vector int " << *(vector_int.begin()) << std::endl;
+		std::cout << "[" << i << "] = " << stack_int.top() << "\n";
+		stack_int.pop();
 	}
-	{
-		// PAIR TESTING
-		ft::pair<int, double> x(22, 23.23);
-		ft::pair<int, double> y(22, 23);
-		if (x < y)
-			std::cout << "x < y" << std::endl;
-		if (x > y)
-			std::cout << "x > y" << std::endl;
-		if (x <= y)
-			std::cout << "x <= y" << std::endl;
-		if (x >= y)
-			std::cout << "x >= y" << std::endl;
-		if (x != y)
-			std::cout << "x != y" << std::endl;
-		if (x == y)
-			std::cout << "x == y" << std::endl;
+}
 
-		ft::pair<int, int> x1(22, 23);
-		ft::pair<int, int> y1(22, 23);
-		if (x1 < y1)
-			std::cout << "x1 < y1" << std::endl;
-		if (x1 > y1)
-			std::cout << "x1 > y1" << std::endl;
-		if (x1 <= y1)
-			std::cout << "x1 <= y1" << std::endl;
-		if (x1 >= y1)
-			std::cout << "x1 >= y1" << std::endl;
-		if (x1 != y1)
-			std::cout << "x1 != y1" << std::endl;
-		if (x1 == y1)
-			std::cout << "x1 == y1" << std::endl;
+static void map_tests(int n)
+{
+	ft::map<int, int> map_int;
 
-		ft::pair<bool, bool> x2(0, 1);
-		ft::pair<bool, bool> y2(0, 0);
-		if (x2 < y2)
-			std::cout << "x2 < y2" << std::endl;
-		if (x2 > y2)
-			std::cout << "x2 > y2" << std::endl;
-		if (x2 <= y2)
-			std::cout << "x2 <= y2" << std::endl;
-		if (x2 >= y2)
-			std::cout << "x2 >= y2" << std::endl;
-		if (x2 != y2)
-			std::cout << "x2 != y2" << std::endl;
-		if (x2 == y2)
-			std::cout << "x2 == y2" << std::endl;
-	}
-	{
-		//ENABLE_IF TESTING
+	for (int i = 0; i < n; i++)
+		map_int.insert(ft::make_pair(i, i));
 
-	}
-	{
-		// IS_INTEGRAL TESTING
-		
-	}
-	{
-		// 
-	}
+	std::cout << "size: " << map_int.size() << std::endl;
+	std::cout << "max size: " << map_int.max_size() << std::endl;
+
+	for (size_t i = 0; i < map_int.size(); i++)
+		std::cout << "[" << i << "] = " << map_int[i] << "\n";
+}
+
+int main(void)
+{
+	int lim = 20;
+	std::cout << ">>>>\nTests for vector\n<<<<" << std::endl;
+	vector_tests(lim);
+
+	std::cout << ">>>>\nTests for stack\n<<<<" << std::endl;
+	stack_tests(lim);
+
+	std::cout << ">>>>\nTests for map\n<<<<" << std::endl;
+	map_tests(lim);
+
 	return (0);
 }

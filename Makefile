@@ -1,39 +1,34 @@
-NAME = testing_norm_lib
-NAME_TEST = testing_test_lib
+NAME = std_containers
+FT_NAME = ft_containers
 SRCS = main2.cpp 
-INC_NAME = vector.hpp  
-INC_PATH = containers/srcs/containers
+INC_NAME = vector.hpp stack.hpp map.hpp
+INC_PATH = ./inc/
 INC = $(adprefix $(INC_PATH), $(INC_NAME))
 OBJ = $(SRCS:.cpp=.o)
-OBJ_FOLDER = objects/
+OBJ_FOLDER = obj/
 OBJS = $(addprefix $(OBJ_FOLDER), $(OBJ))
 CC = c++ -Wall -Wextra -Werror -fsanitize=address -std=c++98
 
-# Objects
-all: $(NAME)
+all:	$(FT_NAME)	$(NAME) 
 
-$(OBJ_FOLDER)%.o: %.cpp
-	@echo -n Building objects
-	@mkdir -p	$(OBJ_FOLDER)
-	@$(CC) -c $< -I srcs/containers -o $@
-	@echo " ✅"
+$(NAME):
+	@${CC} ${SRCS} -I $(INC_PATH) -o $(NAME)
+	@echo Finished $(FT_NAME) compilation ✅
 
-$(NAME): $(OBJS)
-	@echo -n Creating test with normal lib
-	@$(CC) $(OBJS) -o $(NAME)
-	@echo " ✅"
-	@echo -n Creating test with test lib
-	@$(CC) -D real $(OBJS) -o $(NAME_TEST)
-	@echo " ✅"
-	@echo -n Creating test with normal container
-	@mkdir -p testResultFolder
-	@./$(NAME) > testResultFolder/tmp_test_norm_lib
-	@echo -n Creating test with test container
-	@./$(NAME_TEST) > testResultFolder/tmp_test_test_lib
-	@echo " ✅"
-	@echo "Showing result difference with diff : "
-	@diff testResultFolder/tmp_test_norm_lib testResultFolder/tmp_test_test_lib
-	@cat testResultFolder/tmp_test_test_lib
+$(FT_NAME):
+	@${CC} ${SRCS} -DFT -I $(INC_PATH) -o $(FT_NAME)
+	@echo Finished $(NAME) compilation ✅
+
+main:
+	@./$(FT_NAME) > $(FT_NAME)1
+	@./$(NAME) > $(NAME)1
+	@diff $(NAME)1 $(FT_NAME)1
+	@rm $(NAME)1
+	@rm $(FT_NAME)1
+
+test:
+	@echo executing tests
+	@cd tests && ./do.sh
 
 clean:
 	@echo -n Cleaning objects files
@@ -43,11 +38,9 @@ clean:
 fclean: clean
 	@echo -n Cleaning all outputs
 	@rm -f $(NAME)
-	@rm -f $(NAME_TEST)
-	@rm -f testResultFolder/tmp_test_norm_lib 
-	@rm -f testResultFolder/tmp_test_test_lib
-	@rm -f testing_norm_lib
-	@rm -f testing_test_lib 
+	@rm -f $(FT_NAME)
 	@echo " ✅"
 
-re: fclean $(NAME)
+re: fclean all
+
+.PHONY: all fclean clean re
